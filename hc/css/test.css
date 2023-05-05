@@ -1,0 +1,36 @@
+.slider-container {
+    border: 2px solid black;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.slider-container > .slider-wrap {
+    overflow: hidden;
+}
+
+.slider-container > .slider-wrap .slider {
+    position: relative; 
+    transition: 0.5s;
+}
+
+.slider-container > .slider-wrap .slider li {
+    float:left;
+}
+
+.slider-container > .slider-wrap .slider li img {
+    vertical-align: top;
+}
+
+.slider-container .slider-controls > .prev-button {
+    position: absolute; 
+    left:-50px; 
+    top:100px;
+}
+
+.slider-container .slider-controls > .next-button {
+    position: absolute; 
+    right:-50px; 
+    top:100px;
+}

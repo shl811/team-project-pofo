@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.slider-container {
+    /* position: relative;
+    width: 660px;
+    margin: 0 auto;
+    height: 200px; */
+    overflow: hidden;
+}
+
+.slider {
+    width: 300vw;
+
+    /* position: absolute;
+    left: 0;
+    top: 0; */
+
+    /* display: flex; */
+}
+
+/* .slider.animated {
+    transition: 0.5s ease-out;
+} */
+
+.slider-item {
+    width: 100vw;
+    float: left;
+
+    /* height: 200px;
+    background-color: #ccc; */
+}
+
+.slider-item img {
+    width: 100%;
+}
+
+/* .slider li:not(:last-child) {
+    margin-right: 30px;
+} */
+
+/* 버튼 */
+.slider-controls {
+    width: 660px;
+    margin: 0 auto;
+    position: relative;
+
+}
+
+.prev-button,
+.next-button {
+    position: absolute;
+    top: -100px;
+    /* transform: translateY(20px); */
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    color: #fff;
+    cursor: pointer;
+
+    margin-top: -20px;
+    /* 버튼의 높이의 절반만큼 위로 이동하여 수직으로 가운데에 정렬 */
+
+    box-sizing: border-box;
+    border-radius: 50%;
+    /* 동그라미 모양으로 꾸미기 위해 border-radius 속성 추가 */
+    border: 0.5px solid #ccc;
+    /* 보더 추가 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 음영 추가 */
+
+    background-repeat: no-repeat;
+    background-position: center;
+    /* 이미지를 가운데 정렬 */
+
+}
+
+.prev-button {
+    left: -20px;
+    background-image: url("/image/chevron-left.png");
+}
+
+.next-button {
+    right: -20px;
+    background-image: url("/image/chevron-right.png");
+}
