@@ -6,6 +6,6 @@ import com.pofo.pofoapiboot3.entity.PortfolioView;
 
 public interface PortfolioService {
 
-    List<PortfolioView> getViewList(int size);
+    List<PortfolioView> getViewList(Integer page, String sort, Integer collaboration);
     
 }

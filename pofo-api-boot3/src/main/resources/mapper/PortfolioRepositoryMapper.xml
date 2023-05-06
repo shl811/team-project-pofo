@@ -7,14 +7,33 @@
         <result property="memberId" column="member_id" />
         <result property="regDate" column="reg_date" />
         <result property="deleteDate" column="delete_date" />
-        <result property="awardDate" column="award_date" />
         <result property="likeCount" column="like_count" />
     </resultMap>
 
     <select id="findViewAll" resultMap="portfolioViewResultMap">
         select *
         from index_portfolio_view
-        <if test="size != null">
+        where
+        <choose>
+            <when test="collaboration == 0">
+                collaboration = 0
+            </when>
+            <when test="collaboration == 1">
+                collaboration = 1
+            </when>
+            <otherwise> <!-- 협업여부 디폴트 == 전체 -->
+                1 = 1
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="sort == '좋아요순'">
+                ORDER BY like_count DESC
+            </when>
+            <otherwise> <!-- 정렬방식 디폴트 == 최신순 -->
+                ORDER BY reg_date DESC
+            </otherwise>
+        </choose>
+        <if test="offset != null">
 			limit #{size} offset #{offset}
 		</if>
     </select>

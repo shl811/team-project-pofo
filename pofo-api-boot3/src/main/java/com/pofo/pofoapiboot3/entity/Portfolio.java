@@ -20,4 +20,6 @@ public class Portfolio {
     private Date deleteDate;
     private Date awardDate;
     private String thumbnail;
+    private Long likes;
+    private Integer collaboration;
 }
