@@ -113,24 +113,24 @@ portfolio 리스트에서 3가지의 필터(프로그래밍언어, 정렬방식,
 - like 테이블을 따로 뺐기 때문에 4개의 테이블과 조인함
 - skill 테이블에 프로그래밍언어(영어,한글)가 정리되어 있고, 실제로 portfolio 테이블과 조인하는 것은 used_skill 테이블임
 ```sql
-VIEW `temp_index_portfolio_view` AS
+CREATE VIEW temp_index_portfolio_view AS
 SELECT 
-    `p`.`id` AS `id`,
-    `p`.`thumbnail` AS `thumbnail`,
-    `p`.`title` AS `title`,
-    `p`.`hit` AS `hit`,
-    `p`.`collaboration` AS `collaboration`,
-    `p`.`reg_date` AS `reg_date`,
-    `m`.`nickname` AS `nickname`,
-    `m`.`image` AS `member_image`,
-    COUNT(`l`.`portfolio_id`) AS `like_count`,
-    `us`.`skill_id` AS `skill_id`
+    p.id AS id,
+    p.thumbnail AS thumbnail,
+    p.title AS title,
+    p.hit AS hit,
+    p.collaboration AS collaboration,
+    p.reg_date AS reg_date,
+    m.nickname AS nickname,
+    m.image AS member_image,
+    COUNT(l.portfolio_id) AS like_count,
+    us.skill_id AS skill_id
 FROM
-    (((`portfolio` `p`
-    LEFT JOIN `member` `m` ON (`p`.`member_id` = `m`.`id`))
-    LEFT JOIN `like` `l` ON (`p`.`id` = `l`.`portfolio_id`))
-    LEFT JOIN `used_skill` `us` ON (`p`.`id` = `us`.`portfolio_id`))
-GROUP BY `p`.`id` , `us`.`skill_id`
+    portfolio p
+    LEFT JOIN member m ON (p.member_id = m.id)
+    LEFT JOIN `like` l ON (p.id = l.portfolio_id)
+    LEFT JOIN used_skill us ON (p.id = us.portfolio_id)
+GROUP BY p.id, us.skill_id;
 ```
 ~DB 테스트 시 결과가 잘 나왔는데, Mybatis에서 문제다.
 프로그래밍언어(전체), 협업여부(전체) 둘 중 하나라도 전체인 경우 오류나는 것을 확인했다.~
