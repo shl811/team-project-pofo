@@ -107,3 +107,44 @@ async function fetchPortfolios() {
 }
 ```
 사실 리스트 자체는 난이도가 낮다 생각한다. 훨씬 어려운 기능을 구현하거나, 이미 이 기능을 예전에 성공한 학생이 있다.(현재 국비 프로그램 이수 중임) 그래도 내 페이스를 유지하면서 기획한 것을 완료하고 시간이 남는다면 멈추지 않고 확장시킬 것이다.
+   ***
+- ### 5/7  
+portfolio 리스트에서 3가지의 필터(프로그래밍언어, 정렬방식, 협업여부)를 제공하기 때문에 총 4개의 테이블과 조인했다.
+- like 테이블을 따로 뺐기 때문에 4개의 테이블과 조인함
+- skill 테이블에 프로그래밍언어(영어,한글)가 정리되어 있고, 실제로 portfolio 테이블과 조인하는 것은 used_skill 테이블임
+```sql
+VIEW `temp_index_portfolio_view` AS
+SELECT 
+    `p`.`id` AS `id`,
+    `p`.`thumbnail` AS `thumbnail`,
+    `p`.`title` AS `title`,
+    `p`.`hit` AS `hit`,
+    `p`.`collaboration` AS `collaboration`,
+    `p`.`reg_date` AS `reg_date`,
+    `m`.`nickname` AS `nickname`,
+    `m`.`image` AS `member_image`,
+    COUNT(`l`.`portfolio_id`) AS `like_count`,
+    `us`.`skill_id` AS `skill_id`
+FROM
+    (((`portfolio` `p`
+    LEFT JOIN `member` `m` ON (`p`.`member_id` = `m`.`id`))
+    LEFT JOIN `like` `l` ON (`p`.`id` = `l`.`portfolio_id`))
+    LEFT JOIN `used_skill` `us` ON (`p`.`id` = `us`.`portfolio_id`))
+GROUP BY `p`.`id` , `us`.`skill_id`
+```
+DB 테스트 시 결과가 잘 나왔는데, Mybatis에서 문제다.
+프로그래밍언어(전체), 협업여부(전체) 둘 중 하나라도 전체인 경우 오류나는 것을 확인했다.
+어떤 경우에도 where 절은 실행되고 경우에따라 and절이 실행될텐데 400 오류가 발생한다.  
+고쳐보자...
+```xml
+where 1=1
+<if test="collaboration != null">
+    and collaboration = #{collaboration}
+    <if test="skillId != null">
+        and skill_id = #{skillId}
+    </if>
+</if>
+<if test="collaboration == null and skillId != null">
+    and skill_id = #{skillId}
+</if>
+```
