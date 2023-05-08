@@ -132,8 +132,8 @@ FROM
     LEFT JOIN `used_skill` `us` ON (`p`.`id` = `us`.`portfolio_id`))
 GROUP BY `p`.`id` , `us`.`skill_id`
 ```
-DB 테스트 시 결과가 잘 나왔는데, Mybatis에서 문제다.
-프로그래밍언어(전체), 협업여부(전체) 둘 중 하나라도 전체인 경우 오류나는 것을 확인했다.
+~DB 테스트 시 결과가 잘 나왔는데, Mybatis에서 문제다.
+프로그래밍언어(전체), 협업여부(전체) 둘 중 하나라도 전체인 경우 오류나는 것을 확인했다.~
 어떤 경우에도 where 절은 실행되고 경우에따라 and절이 실행될텐데 400 오류가 발생한다.  
 고쳐보자...
 ```xml
@@ -148,6 +148,20 @@ where 1=1
     and skill_id = #{skillId}
 </if>
 ```
+➡️컨트롤러에서 @RequestParam 설정을 잘못하여 발생한 오류였다. 
+```java
+public class HomeController {
+...
+    @GetMapping("index")
+    public ResponseEntity<Map<String, Object>> index(
+        @RequestParam(name = "page", defaultValue = "0") Integer page,
+        @RequestParam(name = "sort", defaultValue = "latest") String sort,
+        @RequestParam(name = "collaboration", required = false) Integer collaboration,
+        @RequestParam(name = "language", required = false) Integer skillId
+    ){
+    ...
+```
+defaultValue = "null"로 설정했었는데 required = false로 수정하여 해결했다.
    ***
 - ### 5/8  
 해냈다! 현재 구현 중인 포트폴리오 관리 시스템의 리스트 기능은 포트폴리오 목록을 보여준다. 이 기능 안에는 검색 필터와 정렬 방식이 포함되어 있는데 검색 필터는 프로그래밍 언어별과 협업 여부를 선택할 수 있다. 정렬 방식은 최신순이 기본이고, 좋아요순으로도 정렬할 수 있다. (검색 기능을 통해 특정 언어나 단어로 검색할 수 있도록 할 예정이다.)  
