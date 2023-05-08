@@ -8,26 +8,33 @@ import { reactive, onMounted, ref, watch } from 'vue';
         portfolioViewList: [], // 포트폴리오 리스트를 담을 변수
         sort: '최신순', // 정렬방식을 나타내는 변수, 최신순이 디폴트
         collaboration: null, // 협업여부를 나타내는 변수, 전체가 디폴트
+        language: null, // 프로그래밍언어를 나타내는 변수, 전체가 디폴트
 
         nextOffset: 0, // 다음 리스트를 가져오기 위한 오프셋 값
         limit: 15, // 한 번에 가져올 리스트의 개수
     });
     
-  
     // --- Life Cycles -------------------------------------
     onMounted(fetchPortfolios);
-    watch(() => [state.sort, state.collaboration], fetchPortfolios); // 변수가 변경될 때마다 함수 실행
+    watch(() => [state.sort, state.collaboration, state.language], fetchPortfolios); // 변수가 변경될 때마다 함수 실행
     
     // --- Event Handlers ----------------------------------
     async function fetchPortfolios() {
         const url = new URL('http://localhost:8080/index');
         url.searchParams.set('sort', state.sort); // URL의 query string을 처리하는 함수
-        if (state.collaboration !== null) { // 협업여부를 선택한 경우 쿼리 파라미터를 추가함
+        if(state.collaboration !== null){ // 협업여부를 선택한 경우 쿼리 파라미터를 추가함
             url.searchParams.set('collaboration', state.collaboration);
         }
+        if(state.language !== null){ // 프로그래밍언어를 선택한 경우 쿼리 파라미터를 추가함
+            url.searchParams.set('language', state.language);
+        }
+
+        console.log(url);
+
         let response = await fetch(url);
         let json = await response.json();
         state.portfolioViewList = json.result;
+        console.log(state.portfolioViewList);
     }
 </script>
 
@@ -77,40 +84,54 @@ import { reactive, onMounted, ref, watch } from 'vue';
                 <h1>POFO의 인기 개발언어를 선택해 보세요.</h1>
                 <!-- 프로그래밍 언어별 -->
                 <ul class="category-list">
-                    <li class="category-item entire active">
-                        <a href="#전체">
+                    <li class="category-item entire"
+                        :class="{active: state.language === null}" 
+                        @click="state.language = null">
+                        <button>
                             <span>전체</span>
-                        </a>
+                        </button>
                     </li>
-                    <li class="category-item java">
-                        <a href="#전체">
+                    <li class="category-item java"
+                        :class="{active: state.language === 1}" 
+                        @click="state.language = 1">
+                        <button>
                             <span>Java</span>
-                        </a>
+                        </button>
                     </li>
-                    <li class="category-item javascript">
-                        <a href="#전체">
+                    <li class="category-item javascript"
+                        :class="{active: state.language === 2}" 
+                        @click="state.language = 2">
+                        <button>
                             <span>JavaScript</span>
-                        </a>
+                        </button>
                     </li>
-                    <li class="category-item python">
-                        <a href="#전체">
+                    <li class="category-item python"
+                        :class="{active: state.language === 3}" 
+                        @click="state.language = 3">
+                        <button>
                             <span>Python</span>
-                        </a>
+                        </button>
                     </li>
-                    <li class="category-item c">
-                        <a href="#전체">
+                    <li class="category-item c"
+                        :class="{active: state.language === 4}" 
+                        @click="state.language = 4">
+                        <button>
                             <span>C</span>
-                        </a>
+                        </button>
                     </li>
-                    <li class="category-item c-sharp">
-                        <a href="#전체">
+                    <li class="category-item c-sharp"
+                        :class="{active: state.language === 5}" 
+                        @click="state.language = 5">
+                        <button>
                             <span>C#</span>
-                        </a>
+                        </button>
                     </li>
-                    <li class="category-item visual-basic">
-                        <a href="#전체">
+                    <li class="category-item visual-basic"
+                        :class="{active: state.language === 6}" 
+                        @click="state.language = 6">
+                        <button>
                             <span>Visual Basic</span>
-                        </a>
+                        </button>
                     </li>
                 </ul>
                 

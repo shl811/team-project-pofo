@@ -8,9 +8,10 @@
         <result property="regDate" column="reg_date" />
         <result property="deleteDate" column="delete_date" />
         <result property="likeCount" column="like_count" />
+        <result property="skillId" column="skill_id" />
     </resultMap>
 
-    <select id="findViewAll" resultMap="portfolioViewResultMap">
+    <!-- <select id="findViewAll" resultMap="portfolioViewResultMap">
         select *
         from index_portfolio_view
         where
@@ -21,7 +22,7 @@
             <when test="collaboration == 1">
                 collaboration = 1
             </when>
-            <otherwise> <!-- 협업여부 디폴트 == 전체 -->
+            <otherwise> 
                 1 = 1
             </otherwise>
         </choose>
@@ -29,7 +30,32 @@
             <when test="sort == '좋아요순'">
                 ORDER BY like_count DESC
             </when>
-            <otherwise> <!-- 정렬방식 디폴트 == 최신순 -->
+            <otherwise> 
+                ORDER BY reg_date DESC
+            </otherwise>
+        </choose>
+        <if test="offset != null">
+			limit #{size} offset #{offset}
+		</if>
+    </select> -->
+    <select id="findViewAll" resultMap="portfolioViewResultMap">
+        select *
+        from temp_index_portfolio_view
+        where 1=1
+        <if test="collaboration != null">
+            and collaboration = #{collaboration}
+            <if test="skillId != null">
+                AND skill_id = #{skillId}
+            </if>
+        </if>
+        <if test="collaboration == null and skillId != null">
+            skill_id = #{skillId}
+        </if>
+        <choose>
+            <when test="sort == '좋아요순'">
+                ORDER BY like_count DESC
+            </when>
+            <otherwise> 
                 ORDER BY reg_date DESC
             </otherwise>
         </choose>

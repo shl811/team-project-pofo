@@ -14,11 +14,18 @@ public class DefaultPortfolioService implements PortfolioService {
     @Autowired
     private PortfolioRepository repository;
 
+    // @Override
+    // public List<PortfolioView> getViewList(Integer page, String sort, Integer collaboration) {
+    //     // 포트폴리오를 한 번에 15개씩 가져옴
+    //     int size = 15;
+    //     return repository.findViewAll(page, size, sort, collaboration);
+    // }
+
     @Override
-    public List<PortfolioView> getViewList(Integer page, String sort, Integer collaboration) {
+    public List<PortfolioView> getViewList(Integer page, String sort, Integer collaboration, Integer skillId) {
         // 포트폴리오를 한 번에 15개씩 가져옴
         int size = 15;
-        return repository.findViewAll(page, size, sort, collaboration);
+        return repository.findViewAll(page, size, sort, collaboration, skillId);
     }
     
 }

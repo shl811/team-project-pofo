@@ -13,4 +13,5 @@ public class PortfolioView extends Portfolio {
     private String nickname;
     private String memberImage;
     private Long likeCount;
+    private Integer skillId;
 }
