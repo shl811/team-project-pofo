@@ -136,19 +136,7 @@ GROUP BY `p`.`id` , `us`.`skill_id`
 프로그래밍언어(전체), 협업여부(전체) 둘 중 하나라도 전체인 경우 오류나는 것을 확인했다.~
 어떤 경우에도 where 절은 실행되고 경우에따라 and절이 실행될텐데 400 오류가 발생한다.  
 고쳐보자...
-```xml
-where 1=1
-<if test="collaboration != null">
-    and collaboration = #{collaboration}
-    <if test="skillId != null">
-        and skill_id = #{skillId}
-    </if>
-</if>
-<if test="collaboration == null and skillId != null">
-    and skill_id = #{skillId}
-</if>
-```
-➡️컨트롤러에서 @RequestParam 설정을 잘못하여 발생한 오류였다. 
+➡️(5/8)컨트롤러에서 @RequestParam 설정을 잘못하여 발생한 오류였다. 
 ```java
 public class HomeController {
 ...
