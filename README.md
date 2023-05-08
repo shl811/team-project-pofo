@@ -148,3 +148,34 @@ where 1=1
     and skill_id = #{skillId}
 </if>
 ```
+   ***
+- ### 5/8  
+해냈다! 현재 구현 중인 포트폴리오 관리 시스템의 리스트 기능은 포트폴리오 목록을 보여준다. 이 기능 안에는 검색 필터와 정렬 방식이 포함되어 있는데 검색 필터는 프로그래밍 언어별과 협업 여부를 선택할 수 있다. 정렬 방식은 최신순이 기본이고, 좋아요순으로도 정렬할 수 있다. (검색 기능을 통해 특정 언어나 단어로 검색할 수 있도록 할 예정이다.)  
+```sql
+CREATE VIEW index_portfolio_view AS
+SELECT 
+	p.id AS id,
+	p.thumbnail AS thumbnail,
+	p.title AS title,
+	p.hit AS hit,
+	p.collaboration AS collaboration,
+	p.reg_date AS reg_date,
+	m.nickname AS nickname,
+	m.image AS member_image,
+    -- COUNT(l.portfolio_id) AS like_count,
+    COUNT(DISTINCT CONCAT(l.member_id, l.portfolio_id)) AS like_count,
+    GROUP_CONCAT(DISTINCT us.skill_id) AS skill_ids
+FROM
+	portfolio p
+	LEFT JOIN member m ON (p.member_id = m.id)
+	LEFT JOIN `like` l ON (p.id = l.portfolio_id)
+	LEFT JOIN used_skill us ON (p.id = us.portfolio_id)
+GROUP BY p.id;
+```
+처음에 기술스택을 조인할 때 skill_id가 다 조회 돼야하니 `GROUP BY p.id, us.skill_id`로 했었는데, 이 경우 포트폴리오 데이터가 중복되는 문제가 발생한다.  
+- 그래서 알아낸 것이 MySQL에서 제공하는 그룹화 함수다. `GROUP_CONCAT(DISTINCT us.skill_id) AS skill_ids`  
+포트폴리오별로 사용된 skill_id 값을 구하고 쉼표로 구분해서 하나의 문자열로 만들어준다! 너무 놀라워! ("1,2,3" 처럼 저장된다.)
+- 그랬더니(ㅋㅋ) 이번에는 like_count의 데이터가 맞지 않는 오류가 발생했다. GROUP_CONCAT 함수는 portfolio_id가 같은 used_skill 레코드들을 그룹화해서 skill_id 컬럼값을 하나의 문자열로 합치는데 이걸 그대로 COUNT 해서 일어난 문제였다.  
+`COUNT(DISTINCT CONCAT(l.member_id, l.portfolio_id)) AS like_count` 한명의 회원은 하나의 포트폴리오에 한 번만 좋아요를 할 수 있기 때문에 CONCAT를 이용해서 회원아이디와 포트폴리오 아이디를 합치고 DISTINCT를 이용해서 중복을 제거한 뒤 COUNT 하는 것으로 해결!  
+  
+가자! 주간 좋아요수 top 10으로!
