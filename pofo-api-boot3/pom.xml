@@ -50,7 +50,13 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-	</dependencies>
+		<dependency>
+		    <groupId>org.mybatis.spring.boot</groupId>
+		    <artifactId>mybatis-spring-boot-starter-test</artifactId>
+		    <version>3.0.1</version>
+		    <scope>test</scope>
+		</dependency>
+	</dependencies> 
 
 	<build>
 		<plugins>

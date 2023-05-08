@@ -8,60 +8,29 @@
         <result property="regDate" column="reg_date" />
         <result property="deleteDate" column="delete_date" />
         <result property="likeCount" column="like_count" />
-        <result property="skillId" column="skill_id" />
+        <result property="skillIds" column="skill_ids" />
     </resultMap>
 
-    <!-- <select id="findViewAll" resultMap="portfolioViewResultMap">
-        select *
-        from index_portfolio_view
-        where
-        <choose>
-            <when test="collaboration == 0">
-                collaboration = 0
-            </when>
-            <when test="collaboration == 1">
-                collaboration = 1
-            </when>
-            <otherwise> 
-                1 = 1
-            </otherwise>
-        </choose>
-        <choose>
-            <when test="sort == '좋아요순'">
-                ORDER BY like_count DESC
-            </when>
-            <otherwise> 
-                ORDER BY reg_date DESC
-            </otherwise>
-        </choose>
-        <if test="offset != null">
-			limit #{size} offset #{offset}
-		</if>
-    </select> -->
     <select id="findViewAll" resultMap="portfolioViewResultMap">
         select *
-        from temp_index_portfolio_view
-        where 1=1
-        <if test="collaboration != null">
-            and collaboration = #{collaboration}
+        from index_portfolio_view
+        where 1 = 1
             <if test="skillId != null">
-                AND skill_id = #{skillId}
-            </if>
-        </if>
-        <if test="collaboration == null and skillId != null">
-            skill_id = #{skillId}
-        </if>
-        <choose>
-            <when test="sort == '좋아요순'">
-                ORDER BY like_count DESC
-            </when>
-            <otherwise> 
-                ORDER BY reg_date DESC
-            </otherwise>
-        </choose>
-        <if test="offset != null">
-			limit #{size} offset #{offset}
-		</if>
+           		and FIND_IN_SET(#{skillId}, skill_ids) > 0
+	        </if>
+	        <if test="collaboration != null">
+	            and collaboration = #{collaboration}
+	        </if>
+        order by
+            <choose>
+                <when test="sort == 'likes'">
+                    like_count desc
+                </when>
+                <otherwise>
+                    reg_date desc
+                </otherwise>
+            </choose>
+        limit #{size} offset #{offset}
     </select>
 
 </mapper>

@@ -6,7 +6,7 @@ import { reactive, onMounted, ref, watch } from 'vue';
     // --- Variables ---------------------------------------
     let state = reactive({
         portfolioViewList: [], // 포트폴리오 리스트를 담을 변수
-        sort: '최신순', // 정렬방식을 나타내는 변수, 최신순이 디폴트
+        sort: 'latest', // 정렬방식을 나타내는 변수, 최신순이 디폴트
         collaboration: null, // 협업여부를 나타내는 변수, 전체가 디폴트
         language: null, // 프로그래밍언어를 나타내는 변수, 전체가 디폴트
 
@@ -140,11 +140,11 @@ import { reactive, onMounted, ref, watch } from 'vue';
                     <div class="sorting-options">
                         <span>정렬방식:</span>
                         <button class="sort-button" 
-                                :class="{active: state.sort === '최신순'}" 
-                                @click="state.sort = '최신순'">최신순</button>
+                                :class="{active: state.sort === 'latest'}" 
+                                @click="state.sort = 'latest'">최신순</button>
                         <button class="sort-button"
-                                :class="{active: state.sort === '좋아요순'}" 
-                                @click="state.sort = '좋아요순'">좋아요순</button>
+                                :class="{active: state.sort === 'likes'}" 
+                                @click="state.sort = 'likes'">좋아요순</button>
                     </div>
                     <!-- 협업여부 -->
                     <div class="collaboration-options">

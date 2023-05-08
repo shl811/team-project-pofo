@@ -22,18 +22,19 @@ public class HomeController {
     @Autowired
     private PortfolioService portfolioService;
 
-    // 3차
+    // 4차
     // 디폴트 포트폴리오 리스트[프로그래밍언어(전체), 정렬방식(최신순), 협업여부(전체)]
     // 정렬방식(최신순), 협업여부(전체)만 성공한 상태
     @GetMapping("index")
     public ResponseEntity<Map<String, Object>> index(
         @RequestParam(name = "page", defaultValue = "0") Integer page,
-        @RequestParam(name = "sort", defaultValue = "최신순") String sort,
-        @RequestParam(name = "collaboration", defaultValue = "null") Integer collaboration,
-        @RequestParam(name = "language", defaultValue = "null") Integer skillId
+        @RequestParam(name = "sort", defaultValue = "latest") String sort,
+        @RequestParam(name = "collaboration", required = false) Integer collaboration,
+        @RequestParam(name = "language", required = false) Integer skillId
     ){
-        System.out.println(skillId);
-
+        System.out.println("sort: " + sort);
+        System.out.println("collaboration: " + collaboration);
+        System.out.println("language: " + skillId);
         // 포트폴리오 리스트
         List<PortfolioView> portfolioViewList = portfolioService.getViewList(page, sort, collaboration, skillId);
 
