@@ -30,22 +30,22 @@ async function fetchPortfolios() {
 프로그래밍언어별 필터를 적용하면 또 바꿔야겠지만, 그림을 그려야 구글링도 할 수 있다는 것을 다시 한번 깨달았다.   
 (SQL을 공부하고 싶은 욕망이 가득해졌다. 아쉽지만 급한 불인 프로젝트&이력서 마무리를 하고 시작해야지. 평생 해버릴 거다!)
 ```sql
-VIEW `index_portfolio_view` AS
+CREATE VIEW index_portfolio_view AS
     SELECT 
-        `p`.`id` AS `id`,
-        `p`.`thumbnail` AS `thumbnail`,
-        `p`.`title` AS `title`,
-        `p`.`hit` AS `hit`,
-        `p`.`collaboration` AS `collaboration`,
-        `p`.`reg_date` AS `reg_date`,
-        `m`.`nickname` AS `nickname`,
-        `m`.`image` AS `member_image`,
-        COUNT(`l`.`portfolio_id`) AS `like_count`
+        p.id AS id,
+        p.thumbnail AS thumbnail,
+        p.title AS title,
+        p.hit AS hit,
+        p.collaboration AS collaboration,
+        p.reg_date AS reg_date,
+        m.nickname AS nickname,
+        m.image AS member_image,
+        COUNT(l.portfolio_id) AS like_count
     FROM
-        ((`portfolio` `p`
-        LEFT JOIN `member` `m` ON (`p`.`member_id` = `m`.`id`))
-        LEFT JOIN `like` `l` ON (`p`.`id` = `l`.`portfolio_id`))
-    GROUP BY `p`.`id`
+        portfolio p
+        LEFT JOIN member m ON p.member_id = m.id
+        LEFT JOIN like l ON p.id = l.portfolio_id
+    GROUP BY p.id;
 ```
 쿼리스트링에 '?collaboration=팀' 이런식으로 보였으면 해서 DB에서는 int지만 서버 코드에서는 String으로 설정했더니
 'java.lang.NumberFormatException: For input string: "팀"' 오류가 발생해서 자료형을 통일했다. 
@@ -181,3 +181,11 @@ GROUP BY p.id;
 `COUNT(DISTINCT CONCAT(l.member_id, l.portfolio_id)) AS like_count` 한명의 회원은 하나의 포트폴리오에 한 번만 좋아요를 할 수 있기 때문에 CONCAT를 이용해서 회원아이디와 포트폴리오 아이디를 합치고 DISTINCT를 이용해서 중복을 제거한 뒤 COUNT 하는 것으로 해결!  
   
 가자! 주간 좋아요수 top 10으로!
+   ***
+- ### 5/9  
+주간 좋아요수 top 10 리스트는 where 조건에 `WEEK(l.liked_date, 0) = WEEK(CURDATE(), 0)` 이 한 줄을 넣는 것으로 간단하게 마무리했다. WEEK() 함수는 첫 번째 매개변수로 날짜 값을, 두 번째 매개변수로는 반환할 주의 시작 요일을 지정할 수 있는데 두 번째 매개변수의 기본값은 0이며, 이 경우 반환되는 주차는 일요일부터 시작된다.  
+인기top10은 슬라이드를 적용했는데 'vue carousel'를 구글링 했더니 https://ismail9k.github.io/vue3-carousel/ !!!
+나도 꼭 오픈소스에 기여해야지. 정말 멋지다! 아직 퍼플리싱이 이전처럼 나오지 않지만 수정해서 내 스타일대로 적용할거다.
+
+
+
