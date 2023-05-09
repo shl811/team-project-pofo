@@ -2,35 +2,49 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pofo.pofoapiboot3.repository.PortfolioRepository">
-    <resultMap id="portfolioViewResultMap" type="PortfolioView">
-        <result property="memberId" column="member_id" />
-        <result property="regDate" column="reg_date" />
-        <result property="deleteDate" column="delete_date" />
-        <result property="likeCount" column="like_count" />
-        <result property="skillIds" column="skill_ids" />
-    </resultMap>
+<mapper
+	namespace="com.pofo.pofoapiboot3.repository.PortfolioRepository">
+	<resultMap id="portfolioViewResultMap" type="PortfolioView">
+		<result property="memberId" column="member_id" />
+		<result property="regDate" column="reg_date" />
+		<result property="deleteDate" column="delete_date" />
+		<result property="likeCount" column="like_count" />
+		<result property="skillIds" column="skill_ids" />
+	</resultMap>
+	<resultMap id="weeklyPopularPortfolioViewResultMap" type="WeeklyPopularPortfolioView">
+		<result property="memberId" column="member_id" />
+		<result property="regDate" column="reg_date" />
+		<result property="deleteDate" column="delete_date" />
+		<result property="likeCount" column="like_count" />
+	</resultMap>
 
-    <select id="findViewAll" resultMap="portfolioViewResultMap">
-        select *
-        from index_portfolio_view
-        where 1 = 1
-            <if test="skillId != null">
-           		and FIND_IN_SET(#{skillId}, skill_ids) > 0
-	        </if>
-	        <if test="collaboration != null">
-	            and collaboration = #{collaboration}
-	        </if>
-        order by
-            <choose>
-                <when test="sort == 'likes'">
-                    like_count desc
-                </when>
-                <otherwise>
-                    reg_date desc
-                </otherwise>
-            </choose>
-        limit #{size} offset #{offset}
-    </select>
+	<!-- 포트폴리오 리스트 -->
+	<select id="findViewAll" resultMap="portfolioViewResultMap">
+		select *
+		from index_portfolio_view
+		where 1 = 1
+		<if test="skillId != null">
+			and FIND_IN_SET(#{skillId}, skill_ids) > 0
+		</if>
+		<if test="collaboration != null">
+			and collaboration = #{collaboration}
+		</if>
+		order by
+		<choose>
+			<when test="sort == 'likes'">
+				like_count desc
+			</when>
+			<otherwise>
+				reg_date desc
+			</otherwise>
+		</choose>
+		limit #{size} offset #{offset}
+	</select>
 
+	<!-- 이번주 인기 포트폴리오 리스트 -->
+	<select id="findWeeklyPopularViewAll" resultMap="weeklyPopularPortfolioViewResultMap">  
+		select *
+		from weekly_popular_portfolio_view
+		limit 10
+	</select>
 </mapper>

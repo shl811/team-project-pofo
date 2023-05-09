@@ -3,9 +3,11 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import App from './App.vue'
 import Index from './components/Index.vue'
+import Indexcopy from './components/Indexcopy.vue'
 
 const routes = [
-    { path: '/index', component: Index }
+    { path: '/index', component: Index },
+    { path: '/indexcopy', component: Indexcopy },
 ]
 
 const router = createRouter({
