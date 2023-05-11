@@ -198,7 +198,10 @@ portfolio_id를 기반으로 getViewList(page, sort, collaboration, 해당id) �
 -> 일치하는 값이 없는 경우  
 일치하는 값이 없다는 안내 + getViewList(page, sort, collaboration, null) 호출  
 
-해보겠습니다.
+front에서는 어떻게 처리해야할까?  
+Header.vue의 검색창에서 키워드가 입력되면, Index.vue로 데이터가 전달 되어야한다.  
+데이터가 전달되면 fetchPortfolios()를 호출한다.
+
 
 
 
