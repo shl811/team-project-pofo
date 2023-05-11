@@ -189,5 +189,26 @@ GROUP BY p.id;
 이제 검색이다.
    ***
 - ### 5/10  
+내가 생각한 검색 시나리오는 이렇다.  
+1. 사용자가 기술을 검색함
+2. skill 테이블의 eng_name, kor_name 컬럼의 값과 일치하는지 확인함  
+-> 일치하는 값이 있는 경우  
+해당 portfolio_id 반환함  
+portfolio_id를 기반으로 getViewList(page, sort, collaboration, 해당id) 호출  
+-> 일치하는 값이 없는 경우  
+일치하는 값이 없다는 안내 + getViewList(page, sort, collaboration, null) 호출  
+
+해보겠습니다.
+
+
+
+
+
+
+
+
+
+
+
 
 
