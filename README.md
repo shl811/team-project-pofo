@@ -268,7 +268,7 @@ public List<PortfolioView> getViewListByQuery(Integer page, String sort, Integer
 	limit #{size} offset #{offset}
 </select>
 ```
-emit 이용하는게
+emit 이용하여 데이터를 전달 했다. 아직 람다에 익숙하지는 않은데, 
 
 
 
