@@ -201,10 +201,74 @@ portfolio_id를 기반으로 getViewList(page, sort, collaboration, 해당id) �
 front에서는 어떻게 처리해야할까?  
 Header.vue의 검색창에서 키워드가 입력되면, Index.vue로 데이터가 전달 되어야한다.  
 데이터가 전달되면 fetchPortfolios()를 호출한다.
+   ***
+- ### 5/11 
+검색어를 skill 테이블에서 조회하여 해당되는 값이 있는 경우 반환하는데, 만약 '자바'를 검색한 경우 자바, 자바스크립트의 id가 결과로 나온다. 이 점을 염두해두고 결과값을 `int[] skillIds` 배열에 저장했다.
+```sql
+SELECT id
+FROM skill 
+WHERE 
+	eng_name LIKE '%f%' 
+	OR 
+	kor_name LIKE '%f%'
+;
+```
+검색 시에는 제목 또는 관련 기술을 포함하는 포트폴리오 리스트를 제공해야하기 해야한다.
+제목이 검색은 기본이기 때문에 검색된 기술 존재 여부+기술이 1개 초과인지에 따라서 달라진다.
+```java
+// 검색된 포트폴리오 리스트
+@Override
+public List<PortfolioView> getViewListByQuery(Integer page, String sort, Integer collaboration, String query) {
+	int size = 15; // 포트폴리오를 한 번에 15개씩 가져옴
 
+	// query와 관련 스택이 있는지 확인함
+	int[] skillIds = repository.findSkillIdsByQuery(query);
 
+	return repository.findViewAllByQuery(page, size, sort, collaboration, query, skillIds);
+}
+```
+```xml
+<!-- 검색된 포트폴리오 리스트 -->
+<select id="findViewAllByQuery" resultMap="portfolioViewResultMap">
+	select *
+	from index_portfolio_view
+	where 1 = 1
+	<if test="skillIds.length > 0">
+		<if test="skillIds.length == 1">
+			AND (
+				FIND_IN_SET(#{skillIds[0]}, skill_ids) > 0
+				or title like concat('%', #{query}, '%')
+			)
+		</if>
+		<if test="skillIds.length > 1">
+			AND (
+			<foreach collection="skillIds" item="skillId" separator=" OR ">
+				FIND_IN_SET(#{skillId}, skill_ids) > 0
+			</foreach>
+			or title like concat('%', #{query}, '%')
+			)
+		</if>
+	</if>
+	<if test="skillIds.length == 0">
+		and title like concat('%', #{query}, '%')
+	</if>
 
-
+	<if test="collaboration != null">
+		and collaboration = #{collaboration}
+	</if>
+	order by
+	<choose>
+		<when test="sort == 'likes'">
+			like_count desc
+		</when>
+		<otherwise>
+			reg_date desc
+		</otherwise>
+	</choose>
+	limit #{size} offset #{offset}
+</select>
+```
+emit 이용하는게
 
 
 
