@@ -18,7 +18,7 @@
 		<result property="likeCount" column="like_count" />
 	</resultMap>
 
-	<!-- 포트폴리오 리스트 -->
+	<!-- 디폴트 포트폴리오 리스트 -->
 	<select id="findViewAll" resultMap="portfolioViewResultMap">
 		select *
 		from index_portfolio_view
@@ -26,6 +26,56 @@
 		<if test="skillId != null">
 			and FIND_IN_SET(#{skillId}, skill_ids) > 0
 		</if>
+		<if test="collaboration != null">
+			and collaboration = #{collaboration}
+		</if>
+		order by
+		<choose>
+			<when test="sort == 'likes'">
+				like_count desc
+			</when>
+			<otherwise>
+				reg_date desc
+			</otherwise>
+		</choose>
+		limit #{size} offset #{offset}
+	</select>
+
+	<!-- 스택 검색 -->
+	<select id="findSkillIdsByQuery" resultType="int">
+		SELECT id
+		FROM skill 
+		WHERE 
+			eng_name LIKE CONCAT('%', #{query}, '%') 
+			OR 
+			kor_name LIKE CONCAT('%', #{query}, '%')
+	</select>
+
+	<!-- 검색된 포트폴리오 리스트 -->
+	<select id="findViewAllByQuery" resultMap="portfolioViewResultMap">
+		select *
+		from index_portfolio_view
+		where 1 = 1
+		<if test="skillIds.length > 0">
+			<if test="skillIds.length == 1">
+				AND (
+					FIND_IN_SET(#{skillIds[0]}, skill_ids) > 0
+					or title like concat('%', #{query}, '%')
+				)
+			</if>
+			<if test="skillIds.length > 1">
+				AND (
+				<foreach collection="skillIds" item="skillId" separator=" OR ">
+					FIND_IN_SET(#{skillId}, skill_ids) > 0
+				</foreach>
+				or title like concat('%', #{query}, '%')
+				)
+			</if>
+		</if>
+		<if test="skillIds.length == 0">
+			and title like concat('%', #{query}, '%')
+		</if>
+
 		<if test="collaboration != null">
 			and collaboration = #{collaboration}
 		</if>

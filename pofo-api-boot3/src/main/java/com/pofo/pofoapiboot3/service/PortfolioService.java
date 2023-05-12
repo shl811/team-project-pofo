@@ -12,5 +12,8 @@ public interface PortfolioService {
 
     // 이번주 인기 포트폴리오 리스트
     List<WeeklyPopularPortfolioView> getWeeklyPopularViewList();
+
+    // 검색된 포트폴리오 리스트
+    List<PortfolioView> getViewListByQuery(Integer page, String sort, Integer collaboration, String query);
     
 }

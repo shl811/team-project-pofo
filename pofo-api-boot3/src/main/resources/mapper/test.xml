@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.pofo.pofoapiboot3.repository.PortfolioRepository">
+    <resultMap type="PortfolioView" id="PortfolioViewResultMap">
+        <result property="memberId" column="member_id"/>
+        <result property="prjTypeId" column="prj_type_id"/>
+        <result property="teamInfo" column="team_info"/>
+        <result property="deleteStatus" column="delete_status"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="modifiedDate" column="modified_date"/>
+        <result property="deleteDate" column="delete_date"/>
+        <result property="imageName" column="image_name"/>
+		<result property="likeCount" column="like_count" />
+		<result property="skillIds" column="skill_ids" />
+    </resultMap>
+    <resultMap type="WeeklyPopularPortfolioView" id="weeklyPopularPortfolioViewResultMap">
+		<result property="memberId" column="member_id" />
+		<result property="regDate" column="reg_date" />
+		<result property="deleteDate" column="delete_date" />
+		<result property="likeCount" column="like_count" />
+	</resultMap>
+
+    <!-- 인덱스 페이지 추천 포트폴리오 -->
+    <select id="findViewListByRecentHits" resultMap="PortfolioViewResultMap">
+        select *
+        from index_portfolio_view
+        limit 4 offset 0
+    </select>
+
+    <select id="findViewListByQuery" parameterType="String" resultMap="PortfolioViewResultMap">
+        select
+        p.id,
+        p.prj_type_id,
+        p.title,
+        p.reg_date,
+        p.hit,
+        i.name as image_name,
+        count(l.id) as likes
+        from
+        portfolio p
+        left join
+        image i
+        on
+        p.id = i.portfolio_id
+        left join
+        portfolio_like l
+        on
+        p.id = l.portfolio_id
+        where
+        p.id
+        in
+        ((select portfolio_id from skill where LOWER(skill.eng_name) = '${query}'
+        or skill.kor_name = '${query}'))
+        or
+        LOWER(p.title)
+        like
+        '%${query}%'
+        and
+        i.orders = 0
+        group by
+        p.id,
+        p.prj_type_id,
+        p.title,
+        i.name,
+        p.reg_date,
+        p.hit
+        order by ${order} desc;
+    </select>
+
+    <select id="findViewListByType" parameterType="Integer" resultMap="PortfolioViewResultMap">
+        select
+        p.id,
+        p.prj_type_id,
+        p.title,
+        p.reg_date,
+        p.hit,
+        i.name as image_name,
+        count(l.id) as likes
+        from
+        portfolio p
+        left join
+        image i
+        on
+        p.id = i.portfolio_id
+        left join
+        portfolio_like l
+        on p.id = l.portfolio_id
+        where
+        i.orders = 0
+        <if test="type != null">
+            and p.prj_type_id = ${type}
+        </if>
+        group by
+        p.id,
+        p.prj_type_id,
+        p.title,
+        i.name,
+        p.reg_date,
+        p.hit
+        order by ${order} desc
+    </select>
+
+    <!-- 포트폴리오 리스트 -->
+	<select id="findViewAll" resultMap="portfolioViewResultMap">
+		select *
+		from index_portfolio_view
+		where 1 = 1
+		<if test="skillId != null">
+			and FIND_IN_SET(#{skillId}, skill_ids) > 0
+		</if>
+		<if test="collaboration != null">
+			and collaboration = #{collaboration}
+		</if>
+		order by
+		<choose>
+			<when test="sort == 'likes'">
+				like_count desc
+			</when>
+			<otherwise>
+				reg_date desc
+			</otherwise>
+		</choose>
+		limit #{size} offset #{offset}
+	</select>
+
+	<!-- 이번주 인기 포트폴리오 리스트 -->
+	<select id="findWeeklyPopularViewAll" resultMap="weeklyPopularPortfolioViewResultMap">  
+		select *
+		from weekly_popular_portfolio_view
+		limit 10
+	</select>
+
+    <select id="findId" resultType="int">
+        SELECT max(id) from portfolio;
+    </select>
+
+    <insert id="insert" parameterType="Portfolio">
+        insert into portfolio(member_id, prj_type_id, title, description, team_info, epilogue, video)
+        values(#{memberId},#{prjTypeId},#{title},#{description},#{teamInfo},#{epilogue},#{video})
+    </insert>
+
+    <!-- Portfolio -->
+    <select id="findPortfolioById" parameterType="int" resultType="Portfolio">
+        select * from portfolio where id = #{id}
+    </select>
+</mapper>
