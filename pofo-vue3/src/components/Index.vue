@@ -19,7 +19,7 @@ export default defineComponent({
             sort: 'latest', // 정렬방식을 나타내는 변수, 최신순이 디폴트
             collaboration: null, // 협업여부를 나타내는 변수, 전체가 디폴트
             language: null, // 프로그래밍언어를 나타내는 변수, 전체가 디폴트
-            query : '', // 검색어를 담을 변수, 
+            query: null, // 검색어를 담을 변수, 
 
             weeklyPopularList: [], // 이번주 인기 포트폴리오 리스트를 담을 변수
 
@@ -33,7 +33,7 @@ export default defineComponent({
         watch(() => [state.sort, state.collaboration, state.language, state.query], fetchPortfolios); // 변수가 변경될 때마다 함수 실행
 
         // --- Event Handlers ----------------------------------
-        function queryUpdateHandler(query){
+        function queryUpdateHandler(query) {
             state.query = query;
         }
 
@@ -58,7 +58,7 @@ export default defineComponent({
             state.weeklyPopularList = json.weeklyPopularList;
         }
 
-        return { 
+        return {
             state,
             queryUpdateHandler
         };
@@ -71,12 +71,18 @@ export default defineComponent({
     <Header @query-updated="queryUpdateHandler" />
     <main>
         <!-- 이번주 인기 TOP 10 포트폴리오 리스트 -->
-        <section class="slider-container">
+        <section v-if="state.query == null" class="slider-container">
             <h1 class="d-none">이번주 인기 TOP 10</h1>
             <div class="slider">
-                <Carousel :itemsToShow="3" :wrapAround="true" :transition="500">
+                <Carousel :itemsToShow="3.125" :wrapAround="true" :transition="500">
                     <Slide v-for="(portfolio, index) in state.weeklyPopularList" :key="index">
-                        <img class="carousel__item" :src="'image/' + portfolio.thumbnail" alt="포트폴리오 섬네일 이미지">
+                        <div class="carousel__item">
+                            <img :src="'image/' + portfolio.thumbnail" alt="포트폴리오 섬네일 이미지">
+                            <div class="overlay">
+                                <h2>{{ portfolio.title }}</h2>
+                                <p>{{ portfolio.nickname }}</p>
+                            </div>
+                        </div>
                     </Slide>
 
                     <template #addons>
@@ -92,10 +98,10 @@ export default defineComponent({
 
             <!-- 필터링 -->
             <section class="category-section">
-                <!-- 검색된 경우 멘트 수정돼야함. -->
-                <h1>POFO의 인기 개발언어를 선택해 보세요.</h1>
+                <h1 v-if="state.query == null">POFO의 인기 개발언어를 선택해 보세요.</h1>
+                <h1 v-if="state.query != null">'{{ state.query }}' 에 대한 검색 결과입니다.</h1>
                 <!-- 프로그래밍 언어별 -->
-                <ul class="category-list">
+                <ul v-if="state.query == null" class="category-list">
                     <li class="category-item entire" :class="{ active: state.language === null }"
                         @click="state.language = null">
                         <button>
@@ -159,11 +165,11 @@ export default defineComponent({
             </section>
 
             <!-- 리스트 섹션 -->
-            <section class="list-section">
+            <section class="list-section" ref="listSection">
                 <h1 class="d-none">포트폴리오 리스트 섹션</h1>
                 <ul>
                     <li v-for="(portfolio, index) in state.list" :key="index">
-                        <div class="thumbnail">
+                        <div class="thumbnail" :data-title="portfolio.title">
                             <img :src="'image/' + portfolio.thumbnail" alt="포트폴리오 섬네일 이미지">
                         </div>
                         <div class="information">
@@ -187,83 +193,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-/* 슬라이더 컨테이너 */
-.slider-container {
-    width: 100%;
-    /* overflow: hidden;
-    position: relative; */
-
-    background-color: #F6F8F8;
-    /* 슬라이더의 배경색을 #F6F8F8로 설정 */
-}
-
-/* 슬라이더 */
-.slider {
-    margin-top: 24px;
-}
-
-.slider img {
-    /* width: 100%; 
-    height: 100%;
-    max-height: 100%; */
-
-    object-fit: cover;
-    /* border-radius: 10px; */
-
-}
-
-/* 슬라이더의 각 슬라이드 아이템 */
-.carousel__item {
-    object-fit: cover;
-    /* max-height: 100%; */
-    /* padding: 0 1.66%; */
-    /* min-height: 200px; */
-    /* width: 100%; */
-    /* border-radius: 8px; */
-    width: 570px;
-    height: 320px;
-    border-radius: 10px;
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
-  }
-.carousel__slide {
-    padding: 5px;
-}
-
-.carousel__viewport {
-    perspective: 1920px;
-}
-
-.carousel__track {
-    transform-style: preserve-3d;
-}
-
-.carousel__slide--sliding {
-    transition: 0.5s;
-}
-
-.carousel__slide {
-    opacity: 0.9;
-    transform: rotateY(-20deg) scale(0.9);
-}
-
-.carousel__slide--active~.carousel__slide {
-    transform: rotateY(20deg) scale(0.9);
-}
-
-.carousel__slide--prev {
-    opacity: 1;
-    transform: rotateY(-10deg) scale(0.95);
-}
-
-.carousel__slide--next {
-    opacity: 1;
-    transform: rotateY(10deg) scale(0.95);
-}
-
-.carousel__slide--active {
-    opacity: 1;
-    transform: rotateY(0) scale(1.1);
-}
+@import url("/css/index.css");
 </style>

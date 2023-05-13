@@ -30,7 +30,7 @@ public class HomeController {
         @RequestParam(name = "sort", defaultValue = "latest") String sort,  // 정렬방법
         @RequestParam(name = "collaboration", required = false) Integer collaboration, // 협업여부
         @RequestParam(name = "language", required = false) Integer skillId, // 프로그래밍언어
-        @RequestParam(name = "query", required = false) String query // 검색어
+        @RequestParam(name = "query", required = false) String query // 검색
     ){
         
         List<PortfolioView> portfolioViewList = null;

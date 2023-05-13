@@ -20,7 +20,9 @@
         <ul class="menu-bar">
             <li><router-link to="/"><img class="header-logo" src="/src/assets/images/Pofo.svg" alt="logo"></router-link>
             </li>
-            <li class="pro"><a href="">프로젝트</a></li>
+            <li class="pro">
+                <router-link to="/index">프로젝트</router-link>
+            </li>
             <li class="community"><router-link to="/community">커뮤니티</router-link></li>
         </ul>
         <div class="search-box"><img class="search-img" src="/src/assets/images/free-icon-search-482631-3.svg" alt="돋보기">

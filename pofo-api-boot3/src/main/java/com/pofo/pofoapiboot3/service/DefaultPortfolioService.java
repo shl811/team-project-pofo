@@ -30,13 +30,8 @@ public class DefaultPortfolioService implements PortfolioService {
     public List<PortfolioView> getViewListByQuery(Integer page, String sort, Integer collaboration, String query) {
         int size = 15; // 포트폴리오를 한 번에 15개씩 가져옴
 
-        // query 를 이용해서 관련 스택이 있는지 검색한다.
+        // query와 관련 스택이 있는지 확인함
         int[] skillIds = repository.findSkillIdsByQuery(query);
-
-        // if(skillIds.length > 0) // 검색된 스킬이 있는 경우
-        //     return repository.findViewAllByQuery(page, size, sort, collaboration, query, skillIds);
-        // else                    // 검색된 스킬이 없는 경우
-        //     return repository.findViewAll(page, size, sort, collaboration, null, query);
 
         return repository.findViewAllByQuery(page, size, sort, collaboration, query, skillIds);
     }
