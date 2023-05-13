@@ -268,8 +268,10 @@ public List<PortfolioView> getViewListByQuery(Integer page, String sort, Integer
 	limit #{size} offset #{offset}
 </select>
 ```
-emit 이용하여 데이터를 전달 했다. 아직 람다에 익숙하지는 않은데, 
-
+데이터는 자식 컴포넌트에서 부모 컴포트로 emit을 이용하여 전달 했다. 아직 람다에 익숙하지는 않지만 이 멋진 한 줄의 힘을 느낄 수 있었다.
+```vue
+<input class="header-search" type="text" placeholder="검색어를 입력해보세요" @keydown.enter="(event) => { $emit('query-updated', event.target.value) }">
+```
 
 
 
