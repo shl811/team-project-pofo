@@ -1,0 +1,150 @@
+/* 비로그인 */
+.com-header {
+  background-color: aquamarine;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.5% 2%;
+  background-color: #fff;
+  z-index: 100;
+  position: sticky; 
+  top: 0;
+  border: 1px solid #eee;
+}
+.header-logo {
+  height: 18px;
+}
+.menu-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+  box-sizing: border-box;
+}
+.user-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+  align-items: center;
+}
+.search-box {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-img {
+  position: relative;
+  top: 0px;
+  left: 25px;
+  height: 15px;
+}
+.header-search {
+  background-color: rgb(247, 249, 249);
+  border: 1px solid rgb(225, 225, 225);
+  border-radius: 19px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2% 0;
+  text-indent: 13.5%;
+  margin-bottom: 3px;
+}
+/* font */
+.menu-bar {
+  font-size: 15px;
+  font-weight: 500;
+}
+.login {
+  font-size: 13px;
+  font-weight: 400;
+}
+.login-li {
+  margin-bottom: 3px;
+}
+.sign-up {
+  width: 80px;
+  height: 30px;
+  font-size: 13px;
+}
+
+/* 로그인 */
+.member-bar {
+  width: 20%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: end;
+  /* padding-left: 10%; */
+  /* margin-right: 5%; */
+}
+.user-bar > li {
+    margin-right: 5%;
+  }
+  .user-bar > li:last-child{
+      margin-right: none;
+  }
+.member-bar > li {
+  margin-right: 5%;
+}
+.member-bar > li:last-child{
+    margin-right: none;
+}
+.prj-register {
+  font-size: 13px;
+  font-weight: 400;
+  height: 32px;
+  margin-bottom: 1px;
+}
+.header-profile {
+  height: 28px;
+}
+
+.dm {
+  width: 20px;
+}
+.bell {
+  width: 20px;
+}
+.hamburger-bar {
+  width: 30px;
+  display: none;
+}
+
+/* @media (max-width: 1500px) {
+  .m-menu {
+    margin-right: 5%;
+  }
+} */
+@media (max-width: 1224px) {
+  .hamburger-bar {
+    display: block;
+  }
+  .pro {
+    display: none;
+  }
+  .community {
+    display: none;
+  }
+  .prj-register {
+    display: none;
+  }
+  .dm {
+    display: none;
+  }
+  .bell {
+    display: none;
+  }
+  .header-profile {
+    display: none;
+  }
+  .search-box {
+    display: none;
+  }
+  .login-li{
+    display: none;
+  }
+  .sign-up-li{
+    display: none;
+  }
+}

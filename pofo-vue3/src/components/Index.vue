@@ -1,69 +1,50 @@
-<script>
+<script setup>
 import { reactive, onMounted, ref, watch, defineComponent } from 'vue';
 import Header from './Header.vue';
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
-export default defineComponent({
-    components: {
-        Header,
-        Carousel,
-        Slide,
-        Pagination,
-        Navigation
-    },
-    setup() {
-        // --- Variables ---------------------------------------
-        let state = reactive({
-            list: [], // 포트폴리오 리스트를 담을 변수
-            sort: 'latest', // 정렬방식을 나타내는 변수, 최신순이 디폴트
-            collaboration: null, // 협업여부를 나타내는 변수, 전체가 디폴트
-            language: null, // 프로그래밍언어를 나타내는 변수, 전체가 디폴트
-            query: null, // 검색어를 담을 변수, 
+    // --- Variables ---------------------------------------
+    let state = reactive({
+        list: [], // 포트폴리오 리스트를 담을 변수
+        sort: 'latest', // 정렬방식을 나타내는 변수, 최신순이 디폴트
+        collaboration: null, // 협업여부를 나타내는 변수, 전체가 디폴트
+        language: null, // 프로그래밍언어를 나타내는 변수, 전체가 디폴트
+        query: null, // 검색어를 담을 변수, 
 
-            weeklyPopularList: [], // 이번주 인기 포트폴리오 리스트를 담을 변수
+        weeklyPopularList: [], // 이번주 인기 포트폴리오 리스트를 담을 변수
 
-            nextOffset: 0, // 다음 리스트를 가져오기 위한 오프셋 값
-            limit: 15, // 한 번에 가져올 리스트의 개수
-        });
+        nextOffset: 0, // 다음 리스트를 가져오기 위한 오프셋 값
+        limit: 15, // 한 번에 가져올 리스트의 개수
+    });
 
+    // --- Life Cycles -------------------------------------
+    onMounted(fetchPortfolios);
+    watch(() => [state.sort, state.collaboration, state.language, state.query], fetchPortfolios); // 변수가 변경될 때마다 함수 실행
 
-        // --- Life Cycles -------------------------------------
-        onMounted(fetchPortfolios);
-        watch(() => [state.sort, state.collaboration, state.language, state.query], fetchPortfolios); // 변수가 변경될 때마다 함수 실행
-
-        // --- Event Handlers ----------------------------------
-        function queryUpdateHandler(query) {
-            state.query = query;
-        }
-
-        async function fetchPortfolios() {
-            console.log(state.query);
-
-            const url = new URL('http://localhost:8080/index');
-            url.searchParams.set('sort', state.sort); // URL의 query string을 처리하는 함수
-            if (state.collaboration !== null) { // 협업여부를 선택한 경우 쿼리 파라미터를 추가함
-                url.searchParams.set('collaboration', state.collaboration);
-            }
-            if (state.language !== null) { // 프로그래밍언어를 선택한 경우 쿼리 파라미터를 추가함
-                url.searchParams.set('language', state.language);
-            }
-            if (state.query !== null) { // 검색한 경우 쿼리 파라미터를 추가함
-                url.searchParams.set('query', state.query);
-            }
-
-            let response = await fetch(url);
-            let json = await response.json();
-            state.list = json.list;
-            state.weeklyPopularList = json.weeklyPopularList;
-        }
-
-        return {
-            state,
-            queryUpdateHandler
-        };
+    // --- Event Handlers ----------------------------------
+    function queryUpdateHandler(query) {
+        state.query = query;
     }
-})
+
+    async function fetchPortfolios() {
+        const url = new URL('http://localhost:8080/index');
+        url.searchParams.set('sort', state.sort); // URL의 query string을 처리하는 함수
+        if (state.collaboration !== null) { // 협업여부를 선택한 경우 쿼리 파라미터를 추가함
+            url.searchParams.set('collaboration', state.collaboration);
+        }
+        if (state.language !== null) { // 프로그래밍언어를 선택한 경우 쿼리 파라미터를 추가함
+            url.searchParams.set('language', state.language);
+        }
+        if (state.query !== null) { // 검색한 경우 쿼리 파라미터를 추가함
+            url.searchParams.set('query', state.query);
+        }
+
+        let response = await fetch(url);
+        let json = await response.json();
+        state.list = json.list;
+        state.weeklyPopularList = json.weeklyPopularList;
+    }
 
 </script>
 

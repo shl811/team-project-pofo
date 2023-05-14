@@ -1,0 +1,33 @@
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p,
+a, em, img, q, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, tbody, tfoot, thead, tr, th, td,
+article, aside, footer, header, 
+nav, section, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+/* 줄 간격 */
+body {
+	line-height: 1;
+}
+
+a, ol, ul, button {
+    list-style: none;
+    text-decoration: none;
+    border: none;
+    background: none;
+		color: #000;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* input cursor */
+input:focus{
+	outline: none;
+}

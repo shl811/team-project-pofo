@@ -1,0 +1,306 @@
+.noti-content-message {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 5px;
+  width: 420px;
+  height: 520px;
+  visibility: visible;
+  margin-bottom: 7px;
+  margin-left: -60px;
+  background-color: white;
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 8px;
+  z-index: 100;
+}
+.noti-content-notify {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 5px;
+  width: 420px;
+  height: 520px;
+  visibility: visible;
+  margin-bottom: 7px;
+  margin-left: -60px;
+  background-color: white;
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 8px;
+  z-index: 100;
+}
+.noti-content-profile {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 55px;
+  right: 5px;
+  width: 330px;
+  height: 290px;
+  visibility: visible;
+  margin-bottom: 7px;
+  margin-left: -60px;
+  background-color: white;
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 8px;
+  z-index: 100;
+}
+.noti-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgb(240, 245, 245);
+}
+.noti-title-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid rgb(241, 241, 241);
+}
+.noti-content-message::after {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(228, 232, 232) rgb(228, 232, 232) rgb(255, 255, 255)
+    transparent;
+  border-style: solid;
+  border-width: 1px;
+  content: " ";
+  height: 10px;
+  position: absolute;
+  right: 75px;
+  top: -6px;
+  transform: rotate(-45deg);
+  width: 10px;
+  right: 36%;
+  z-index: 1;
+}
+.noti-content-notify::after {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(228, 232, 232) rgb(228, 232, 232) rgb(255, 255, 255)
+    transparent;
+  border-style: solid;
+  border-width: 1px;
+  content: " ";
+  height: 10px;
+  position: absolute;
+  right: 75px;
+  top: -6px;
+  transform: rotate(-45deg);
+  width: 10px;
+  right: 28.6%;
+  z-index: 1;
+}
+.noti-content-profile::after {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(228, 232, 232) rgb(228, 232, 232) rgb(255, 255, 255)
+    transparent;
+  border-style: solid;
+  border-width: 1px;
+  content: " ";
+  height: 10px;
+  position: absolute;
+  right: 75px;
+  top: -6px;
+  transform: rotate(-45deg);
+  width: 10px;
+  right: 25.3%;
+  z-index: 1;
+}
+.alarm-item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden auto;
+}
+.alarm-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-wrap {
+  flex-grow: 1;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+}
+.modal-thumbnail-circle {
+  border-radius: 50%;
+}
+.profile-image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.profile-username-uppercase {
+  border-radius: 50%;
+  font-weight: 500;
+  font-size: 13px;
+  color: rgb(68, 68, 68);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+.modal-wall {
+  width: 16px;
+  height: 100%;
+  flex-shrink: 0;
+}
+.modal-content {
+  flex-grow: 1;
+  overflow: hidden;
+}
+.modal-title {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(22, 28, 28);
+}
+.modal-name {
+  width: 60%;
+}
+.modal-title {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(22, 28, 28);
+}
+.modal-name p {
+  margin-block: 0px;
+}
+.modal-date {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(124, 132, 132);
+}
+.modal-last-msg {
+  width: 100%;
+  height: 18px;
+  font-weight: 400;
+  color: rgb(44, 48, 48);
+}
+.modal-wall {
+  width: 16px;
+  height: 100%;
+  flex-shrink: 0;
+}
+.modal-title-wall {
+  width: 100%;
+  height: 4px;
+}
+.modal-last-msg p {
+  margin-block: 0px;
+}
+.bottom-line {
+  width: 90.7%;
+  flex-shrink: 0;
+  position: relative;
+  height: 1px;
+  margin: 0px auto;
+  background-color: rgb(240, 245, 245);
+}
+.noti-title-content {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgb(30, 30, 30);
+}
+.noti-title-content a {
+  display: flex;
+  align-items: center;
+  color: #8cccf4;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  cursor: pointer;
+}
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* 반투명한 검은 배경 */
+  z-index: -1; /* 모달 창보다 낮은 z-index 값을 지정합니다. */
+}
+.user-main-wrap {
+  border-bottom: 1px solid rgb(240, 240, 240);
+  display: flex;
+  flex-direction: row;
+  padding: 24px;
+}
+
+.user-detail-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+.user-detail-id {
+  align-items: center;
+  color: rgb(30, 30, 30);
+  cursor: pointer;
+  display: flex;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.user-detail-email {
+  align-items: center;
+  color: rgb(153, 153, 153);
+  cursor: pointer;
+  display: flex;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  margin-top: 6px;
+}
+.profile-menu-wrap .menu-item {
+  align-items: center;
+  color: rgb(68, 68, 68);
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  padding: 8px 24px;
+  text-decoration: none;
+  transition: all 0.1s ease 0s;
+}
+.mg-bottom {
+  margin-bottom: 20px;
+}
+.line-bar {
+  border-top: 1px solid rgb(240, 240, 240);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.profile-menu-wrap .menu-item .logout-btn {
+  padding: 20px;
+}
+.modal-msg-text-notify {
+  font-weight: lighter;
+}
+.profile-img-mypage {
+  width: 45px;
+  height: 45px;
+}
+.profile-img-noti {
+  width: 40px;
+  height: 40px;
+}
+.profile-img-msg {
+  width: 40px;
+  height: 40px;
+}

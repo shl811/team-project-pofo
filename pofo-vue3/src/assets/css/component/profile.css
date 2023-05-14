@@ -1,0 +1,132 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    /* 임시 헤더 */
+    width: 100%;
+    height: 75px;
+    background-color: pink;
+}
+
+.container{
+    display: flex;
+    padding-left: 5%;
+}
+
+.profile{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 360px;
+    padding: 40px 32px 64px;
+    margin-top: 5%;
+    border-radius: 8px;
+    word-break: keep-all;
+    background: rgb(255, 255, 255);
+    overflow: hidden;
+    border: 1px solid rgb(241, 241, 241);
+    height: min-content;
+}
+
+.profile-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-img{
+    border: 0.5px gray;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5%;
+}
+
+.nickname{
+    margin-bottom: 3%;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: rgb(30, 30, 30);
+}
+
+.url{
+    color: rgb(153, 153, 153);
+    text-decoration: underline;
+    margin-bottom: 10%;
+}
+
+.activity-boxes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;  
+}
+
+.activity-boxes > div{
+    width: calc(33.3333% - 10px);
+    margin-right: 3.4%;
+    margin-bottom: 8%;
+}
+
+
+.profile-content{
+    width: 60%;
+}
+
+.tab-container{
+    margin-top: 10%;
+    border-bottom: 1px solid rgb(241, 241, 241);
+}
+
+/* 항목 -> 작업, 좋아요, 컬렉션, 임시 보관함 */
+.items{
+    display: flex;
+    width: 60%;
+    font-size: 1rem;
+    margin-top: 7%;
+    justify-content: space-around;
+    padding-bottom: 2%;
+}
+
+.num{
+    padding: 5px;
+    display: inline-block;
+    width: 30px;
+    font-weight: 700;
+    background-color: rgb(30, 30, 30);
+    border-radius: 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+.portfolio-lists{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-bottom: 60px;
+    margin-top: 5%;
+}
+
+.portfolio-lists img{
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+}
+
+.portfolio-lists img:hover{
+    cursor: pointer;
+}
+
+.non-selected{
+    color: rgb(153, 153, 153);
+}
+
+.num-non-selected{
+    color: rgb(153, 153, 153);
+    background-color: rgb(248, 248, 248);
+}
+
+.btn-height{
+    padding: 3.8%;
+}

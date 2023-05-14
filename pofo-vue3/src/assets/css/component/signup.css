@@ -1,0 +1,141 @@
+
+.text {
+   width: fit-content;
+    height: 28px;
+    justify-content: center;
+}
+
+
+.black-bg {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(240, 243, 243);
+
+}
+
+.white-bg {
+    position: absolute;
+    top: 5%;
+    left: 35%;
+    min-height: 90%;
+    width: 30%;
+    padding: 40px 48px;
+    border: 1px solid rgb(240, 245, 245);
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+.or{
+    border-top: 1px solid #dfdfdf;
+    width: 260px;
+    height: 40px;
+}
+ .line-text{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -.25px;
+    text-align: center;
+    margin-top: 10%;
+
+} 
+.page-btn{
+    position: absolute;
+}
+
+.security-btn {
+    padding: 12px 5px;
+    width: 107.8px;
+    background-color: #000000;
+    border-radius: 4px;
+    /* 외곽선 없애기 */
+    border: none;
+    color : #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.security-btn1 {
+    padding: 12px 23.7px;
+    background-color: #000000;
+    border-radius: 4px;
+    /* 외곽선 없애기 */
+    border: none;
+    color : #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.security-input-text{
+    margin-right: 1%;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #eee;
+    width: 74%;
+    height: 40px;
+    /* margin-top: 2%; */
+}
+.btn-next {
+    padding: 12px 42px;
+    background-color: #000000;
+    border-radius: 4px;
+    /* 외곽선 없애기 */
+    border: none;
+    color : #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.btn-back {
+    padding: 12px 42px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    /* 외곽선 없애기 */
+    border: 1px solid #000000;
+    color : #000000;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.input-text1 {
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #eee;
+    width: 98%;
+    height: 40px;
+    margin-top: 2%;
+    /* opacity: 10%; */
+}
+.flex-row-between1 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+.logo-img{
+    display: block;
+    width: 100px;
+    margin: 0px auto;
+}
+
+.certification-text{
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #eee;
+    height: 40px;
+    margin-top: 2%;
+    width: 49%;
+}
+
+button:disabled{
+    color: gray;
+}
+input[type="text"]:read-only{
+    color: gray;
+}
+
+span.red{
+    display: inline-block;
+    font-size: 10px;
+	color: red;
+}
+
+span.green{
+    display: inline-block;
+    font-size: 10px;
+	color: green;
+}
