@@ -202,7 +202,7 @@ front에서는 어떻게 처리해야할까?
 Header.vue의 검색창에서 키워드가 입력되면, Index.vue로 데이터가 전달 되어야한다.  
 데이터가 전달되면 fetchPortfolios()를 호출한다.
    ***
-- ### 5/11 
+- ### 5/11~12
 검색어를 skill 테이블에서 조회하여 해당되는 값이 있는 경우 반환하는데, 만약 '자바'를 검색한 경우 자바, 자바스크립트의 id가 결과로 나온다. 이 점을 염두해두고 결과값을 `int[] skillIds` 배열에 저장했다.
 ```sql
 SELECT id
@@ -272,10 +272,12 @@ public List<PortfolioView> getViewListByQuery(Integer page, String sort, Integer
 ```vue
 <input class="header-search" type="text" placeholder="검색어를 입력해보세요" @keydown.enter="(event) => { $emit('query-updated', event.target.value) }">
 ```
-
-
-
-
+   ***
+- ### 5/13
+index 화면을 기획대로 구현했다. 
+`v-if`를 이용해서 화면 구성을 구성하고 css를 이용해서 디테일한 부분을 수정했다. 아직 완벽하지는 않지만 기획한 모습을 볼 수 있어서 좋았다.  
+5/25이면 국비 과정도 끝이라서 (아직 이력서도 제출하지 않았지만) 면접 시 입을 옷을 확인했는데, 갑자기 투지가 넘친다. 얼른 미래의 회사 동료분들과 일하고 싶고, 잘 지내고 싶다. 고맙게도 시간이 지날 수록 '할 수 있다'라는 마음이 점점 생긴다.  
+나 자신, 우리 팀, 우리 반 파이팅!
 
 
 
