@@ -3,10 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.pofo.pofoapiboot3.repository.RecruitmentPostRepository">
+	namespace="com.pofo.pofoapiboot3.repository.CommunityPostRepository">
 
-    <insert id="insert" parameterType="RecruitmentPost">
-        insert into recruitment_post(member_id, title, location_type, location_info, period, team_size, thumbnail)
+    <insert id="insert" parameterType="CommunityPost">
+        insert into community_post(member_id, title, location_type, location_info, period, team_size, thumbnail)
         values(#{memberId}, #{title}, #{locationType}, #{locationInfo}, #{period}, #{teamSize}, #{thumbnail})
     </insert>
 </mapper>

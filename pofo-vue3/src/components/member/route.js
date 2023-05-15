@@ -1,11 +1,16 @@
-import CommunityRegister from './CommunityRegister.vue'
+import Register from './community/Register.vue'
 
 const member = {
     path: '/member',
     children: [
         {
-            path: 'communityRegister',
-            component: CommunityRegister
+            path: 'community',
+            children: [
+                { 
+                    path: 'register', 
+                    component: Register 
+                }
+            ]
         }
     ] 
 }

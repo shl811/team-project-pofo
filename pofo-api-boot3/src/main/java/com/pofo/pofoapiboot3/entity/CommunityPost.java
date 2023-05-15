@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecruitmentPost {
+public class CommunityPost {
     private Long id;
     private Long memberId; 
     private String title;
