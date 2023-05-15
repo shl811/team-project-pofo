@@ -278,6 +278,59 @@ index 화면을 기획대로 구현했다.
 `v-if`를 이용해서 화면 구성을 구성하고 css를 이용해서 디테일한 부분을 수정했다. 아직 완벽하지는 않지만 기획한 모습을 볼 수 있어서 좋았다.  
 5/25이면 국비 과정도 끝이라서 (아직 이력서도 제출하지 않았지만) 면접 시 입을 옷을 확인했는데, 갑자기 투지가 넘친다. 얼른 미래의 회사 동료분들과 일하고 싶고, 잘 지내고 싶다. 고맙게도 시간이 지날 수록 '할 수 있다'라는 마음이 점점 생긴다.  
 나 자신, 우리 팀, 우리 반 파이팅!
+   ***
+- ### 5/14
+포트폴리오 리스트를 어느정도 마무리한 후 커뮤니티 관리 시스템의 등록 기능을 시작했다. 백엔드에서 테스트 완료하고 vue로 넘어가서 reactive, fetch 등을 이용했으나 사용자가 입력한 값이 서버단으로 넘어가지 않는 상황이다.
+```javascript
+// --- Variables ---------------------------------------
+let state = reactive({
+memberId: 2,
+title: "",
+locationType: 0,
+locationInfo: "",
+period: "",
+teamSize: 0,
+thumbnail: ""
+});
+
+// --- Event Handlers ----------------------------------
+async function registerHandler(){
+console.log(state.title);
+const url = new URL("http://localhost:8080/member/recruitmentPost/register");
+
+let response = await fetch(url, {
+    method: "POST",
+    headers: {
+	"Accept": "application/json",
+	"Content-type": "application/x-www-form-urlencoded"
+    },
+    body: `memberId=${state.memberId}&
+	    title=${state.title}&
+	    locationType=${state.locationType}&
+	    locationInfo=${state.locationInfo}&
+	    period=${state.period}&
+	    teamSize=${state.teamSize}&
+	    thumbnail=${state.thumbnail}`
+});
+```
+콘솔에는 값이 찍히는데.. 이유를 찾아내겠어!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
