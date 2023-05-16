@@ -314,11 +314,87 @@ let response = await fetch(url, {
 });
 ```
 콘솔에는 값이 찍히는데.. 이유를 찾아내겠어!
+   ***
+- ### 5/16
+
+커뮤니티 관리시스템의 등록, 목록조회, 상세조회 중 등록부터 시작했다.
+```javascript
+// --- Variables ---------------------------------------
+let community = reactive({
+    memberId: 2, // 이후에 로그인한 회원의 정보 가져와야함
+    title: "",
+    onlineType: true,
+    locationInfo: "",
+    period: "",
+    teamSize: 0,
+    thumbnail: "",
+});
+
+let fileInputRef = ref(null);
+let imgRef = ref(null)
+
+// --- Event Handlers ----------------------------------
+async function registerHandler() {
+    const url = new URL("http://localhost:8080/members/community-post/register");
+    let form = document.querySelector("#form");
+    const formData = new FormData(form);
+    formData.append("onlineType",community.onlineType); 
+
+    // community 객체를 복사하여 새로운 객체 생성
+    // const requestData = JSON.parse(JSON.stringify(community));
+
+    let response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+        },
+        // body: JSON.stringify(requestData) 
+        body: formData
+    })
+
+    let result = await response.text();
 
 
+    if (result == "true") {
+        alert("Post created successfully.");
+    } else {
+        alert("Failed to create post.");
+    }
+}
 
+function imageBoxClickHandler(){
+    console.log("clicked");
+    let fileInput = fileInputRef.value;
+    
+    // fileInput.click(); // 이 방법 보다는..?
+    const event = new MouseEvent("click", {
+    view: window,
+        bubbles: true,
+        cancelable: true,
+    });
 
+    fileInput.dispatchEvent(event);
+}
 
+function fileInputHandler(e) {
+    console.log(e);
+
+    const file = fileInputRef.value.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            imgRef.value.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+
+    } else {
+        console.log('파일이 선택되지 않았습니다.');
+    }
+}
+```
 
 
 
