@@ -159,7 +159,7 @@ h2{
     margin-right: 10px;
 }
 
-.button-box button:active, button:focus {
+.button-box button:active, button.focus {
     background-color: rgb(31, 106, 125);
     color: white;
   }

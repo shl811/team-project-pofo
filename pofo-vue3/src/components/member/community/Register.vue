@@ -1,44 +1,44 @@
 <script setup>
 import Header from '../../Header.vue'
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 let router = useRouter();
 let route = useRoute();
 
-
 // --- Variables ---------------------------------------
-let state = reactive({
-    id: null,
+let community = reactive({
     memberId: 2, // 이후에 로그인한 회원의 정보 가져와야함
     title: "",
-    locationType: 0,
+    onlineType: true,
     locationInfo: "",
     period: "",
     teamSize: 0,
     thumbnail: "",
-    regDate: null,
-    deleteDate: null,
-    hit: 0
-
 });
+
+let fileInputRef = ref(null);
+let imgRef = ref(null);
 
 // --- Life Cycles -------------------------------------
 
 // --- Event Handlers ----------------------------------
 async function registerHandler() {
     const url = new URL("http://localhost:8080/member/community-post/register");
+    let form = document.querySelector("#form");
+    const formData = new FormData(form);
+    formData.append("onlineType",community.onlineType); 
 
-    // state 객체를 복사하여 새로운 객체 생성
-    const requestData = JSON.parse(JSON.stringify(state));
+    // community 객체를 복사하여 새로운 객체 생성
+    const requestData = JSON.parse(JSON.stringify(community));
 
     let response = await fetch(url, {
         method: "POST",
         headers: {
             "Accept": "application/json",
-            "Content-type": "application/json"
         },
-        body: JSON.stringify(requestData) 
+        // body: JSON.stringify(requestData) 
+        body: formData
     })
 
     let result = await response.text();
@@ -49,7 +49,39 @@ async function registerHandler() {
     } else {
         alert("Failed to create post.");
     }
+}
 
+function imageBoxClickHandler(){
+    console.log("clicked");
+    let fileInput = fileInputRef.value;
+    
+    // fileInput.click(); // 이 방법 보다는..?
+    const event = new MouseEvent("click", {
+    view: window,
+        bubbles: true,
+        cancelable: true,
+    });
+
+    fileInput.dispatchEvent(event);
+}
+
+function fileInputHandler(e) {
+    console.log(e);
+
+    const file = fileInputRef.value.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            imgRef.value.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+
+    } else {
+        console.log('파일이 선택되지 않았습니다.');
+    }
 }
 
 </script>
@@ -73,19 +105,18 @@ async function registerHandler() {
                 <img class="noti" src="/src/assets/images/notification.png" alt="">
             </p>
         </section>
-        <form class="team-c-form" action="" method="post">
+        <form class="team-c-form" action="" method="post" id="form">
             <main class="team-c-main margin-top-1">
                 <div class="first-img-box">
-                    <div class="img-box">
-                        <input type="file" class="d-none">
-                        <img class="hover" src="/src/assets/images/img.png" alt="">
-                        <span>썸네일 대표 이미지를 추가해주세요.</span>
-                        <img class="hover d-none" src="/src/assets/images/fff-img.png" alt="">
+                    <div class="img-box" @click="imageBoxClickHandler" >
+                        <span v-if="!imgRef">썸네일 대표 이미지를 추가해주세요.</span>
+                        <img ref="imgRef"  src="#" alt="선택한 이미지" />
                     </div>
+                    <input type="file" class="d-none" ref="fileInputRef" @input="fileInputHandler" name="image">
                 </div>
                 <div class="text-box margin-top-3">
                     <h2>제목</h2>
-                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="state.title">
+                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="community.title" name="title">
                 </div>
                 <div class="text-box margin-top-3">
                     <h2>닉네임</h2>
@@ -95,21 +126,24 @@ async function registerHandler() {
                 <div class="button-box margin-top-3">
                     <h2>온·오프라인</h2>
                     <div class="btn-box margin-top-5">
-                        <button class="btn btn-1 margin-right-10" @click.prevent="state.locationType = 0">ON-LINE</button>
-                        <button class="btn btn-1" @click.prevent="state.locationType = 1">OFF-LINE</button>
+                        <!-- <button class="btn btn-1 margin-right-10" :class={focus: community.locationType} @click.prevent="community.locationType = 0">ON-LINE</button>
+                        <button class="btn btn-1" :class={focus:!community.locationType} @click.prevent="community.locationType = 1">OFF-LINE</button> -->
+                        <!-- Ekf -->
+                        <button class="btn btn-1 margin-right-10" :class="{'focus': community.onlineType}" @click.prevent="community.onlineType = true">ON-LINE</button>
+                        <button class="btn btn-1" :class="{'focus': !community.onlineType}" @click.prevent="community.onlineType = false">OFF-LINE</button>
                     </div>
                 </div>
                 <div class="text-box margin-top-3">
                     <h2>장소</h2>
-                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="state.locationInfo">
+                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="community.locationInfo" name="locationInfo">
                 </div>
                 <div class="text-box margin-top-3">
                     <h2>기간</h2>
-                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="state.period">
+                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="community.period" name="period">
                 </div>
                 <div class="text-box margin-top-3">
                     <h2>모집인원</h2>
-                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="state.teamSize">
+                    <input class="team-c-input" type="text" placeholder="내 답변" v-model="community.teamSize" name="teamSize">
                 </div>
                 <div class="submit-box margin-top-2">
                     <button class="submit" type="submit" @click.prevent="registerHandler">등록</button>
