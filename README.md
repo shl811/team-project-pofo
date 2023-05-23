@@ -11,7 +11,7 @@ let portfolios = []; // 포트폴리오 리스트를 담을 변수
 // --- Life Cycles ---------------------------------------
 onMounted(() => {
     fetchPortfolios(); // 인덱스 페이지 접속 시 포트폴리오 리스트 가져오기
-})
+}) 
  
 // --- Event Handlers ---------------------------------------
 async function fetchPortfolios() {
